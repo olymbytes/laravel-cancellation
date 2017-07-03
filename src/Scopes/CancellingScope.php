@@ -6,116 +6,116 @@ use Illuminate\Database\Eloquent\Scope;
 
 class CancellingScope extends Scope
 {
-	/**
-	 * All of the extensions to be added to the builder.
-	 *
-	 * @var array
-	 */
-	protected $extensions = ['Keep', 'WithCancelled', 'WithoutCancelled', 'OnlyCancelled'];
+    /**
+     * All of the extensions to be added to the builder.
+     *
+     * @var array
+     */
+    protected $extensions = ['Keep', 'WithCancelled', 'WithoutCancelled', 'OnlyCancelled'];
 
-	/**
-	 * Apply the scope to a given Eloquent query builder.
-	 *
-	 * @param  \Illuminate\Database\Eloquent\Builder  $builder
-	 * @param  \Illuminate\Database\Eloquent\Model  $model
-	 * @return void
-	 */
-	public function apply(Builder $builder, Model $model)
-	{
-		$builder->whereNull($model->getQualifiedCancelledAtColumn());
-	}
+    /**
+     * Apply the scope to a given Eloquent query builder.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $builder
+     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @return void
+     */
+    public function apply(Builder $builder, Model $model)
+    {
+        $builder->whereNull($model->getQualifiedCancelledAtColumn());
+    }
 
-	/**
-	 * Extend the query builder with the needed functions.
-	 *
-	 * @param  \Illuminate\Database\Eloquent\Builder  $builder
-	 * @return void
-	 */
-	public function extend(Builder $builder)
-	{
-	    foreach ($this->extensions as $extension) {
-	        $this->{"add{$extension}"}($builder);
-	    }
-	}
+    /**
+     * Extend the query builder with the needed functions.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $builder
+     * @return void
+     */
+    public function extend(Builder $builder)
+    {
+        foreach ($this->extensions as $extension) {
+            $this->{"add{$extension}"}($builder);
+        }
+    }
 
-	/**
-	 * Get the "deleted at" column for the builder.
-	 *
-	 * @param  \Illuminate\Database\Eloquent\Builder  $builder
-	 * @return string
-	 */
-	protected function getCancelledAtColumn(Builder $builder)
-	{
-	    if (count($builder->getQuery()->joins) > 0) {
-	        return $builder->getModel()->getQualifiedCancelledAtColumn();
-	    }
+    /**
+     * Get the "deleted at" column for the builder.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $builder
+     * @return string
+     */
+    protected function getCancelledAtColumn(Builder $builder)
+    {
+        if (count($builder->getQuery()->joins) > 0) {
+            return $builder->getModel()->getQualifiedCancelledAtColumn();
+        }
 
-	    return $builder->getModel()->getCancelledAtColumn();
-	}
+        return $builder->getModel()->getCancelledAtColumn();
+    }
 
-	/**
-	 * Add the keep extension to the builder.
-	 *
-	 * @param  \Illuminate\Database\Eloquent\Builder  $builder
-	 * @return void
-	 */
-	protected function addKeep(Builder $builder)
-	{
-	    $builder->macro('keep', function (Builder $builder) {
-	        $builder->withCancelled();
+    /**
+     * Add the keep extension to the builder.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $builder
+     * @return void
+     */
+    protected function addKeep(Builder $builder)
+    {
+        $builder->macro('keep', function (Builder $builder) {
+            $builder->withCancelled();
 
-	        return $builder->update([$builder->getModel()->getCancelledAtColumn() => null]);
-	    });
-	}
+            return $builder->update([$builder->getModel()->getCancelledAtColumn() => null]);
+        });
+    }
 
-	/**
-	 * Add the with-cancelled extension to the builder.
-	 *
-	 * @param  \Illuminate\Database\Eloquent\Builder  $builder
-	 * @return void
-	 */
-	protected function addWithCancelled(Builder $builder)
-	{
-	    $builder->macro('withCancelled', function (Builder $builder) {
-	        return $builder->withoutGlobalScope($this);
-	    });
-	}
+    /**
+     * Add the with-cancelled extension to the builder.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $builder
+     * @return void
+     */
+    protected function addWithCancelled(Builder $builder)
+    {
+        $builder->macro('withCancelled', function (Builder $builder) {
+            return $builder->withoutGlobalScope($this);
+        });
+    }
 
-	/**
-	 * Add the without-cancelled extension to the builder.
-	 *
-	 * @param  \Illuminate\Database\Eloquent\Builder  $builder
-	 * @return void
-	 */
-	protected function addWithoutCancelled(Builder $builder)
-	{
-	    $builder->macro('withoutCancelled', function (Builder $builder) {
-	        $model = $builder->getModel();
+    /**
+     * Add the without-cancelled extension to the builder.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $builder
+     * @return void
+     */
+    protected function addWithoutCancelled(Builder $builder)
+    {
+        $builder->macro('withoutCancelled', function (Builder $builder) {
+            $model = $builder->getModel();
 
-	        $builder->withoutGlobalScope($this)->whereNull(
-	            $model->getQualifiedCancelledAtColumn()
-	        );
+            $builder->withoutGlobalScope($this)->whereNull(
+                $model->getQualifiedCancelledAtColumn()
+            );
 
-	        return $builder;
-	    });
-	}
+            return $builder;
+        });
+    }
 
-	/**
-	 * Add the only-cancelled extension to the builder.
-	 *
-	 * @param  \Illuminate\Database\Eloquent\Builder  $builder
-	 * @return void
-	 */
-	protected function addOnlyCancelled(Builder $builder)
-	{
-		$builder->macro('onlyCancelled', function (Builder $builder) {
-		    $model = $builder->getModel();
+    /**
+     * Add the only-cancelled extension to the builder.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $builder
+     * @return void
+     */
+    protected function addOnlyCancelled(Builder $builder)
+    {
+        $builder->macro('onlyCancelled', function (Builder $builder) {
+            $model = $builder->getModel();
 
-		    $builder->withoutGlobalScope($this)->whereNotNull(
-		        $model->getQualifiedCancelledAtColumn()
-		    );
+            $builder->withoutGlobalScope($this)->whereNotNull(
+                $model->getQualifiedCancelledAtColumn()
+            );
 
-		    return $builder;
-		});
-	}
+            return $builder;
+        });
+    }
 }
