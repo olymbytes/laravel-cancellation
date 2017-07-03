@@ -62,7 +62,7 @@ class CancellingScope extends Scope
 	protected function addKeep(Builder $builder)
 	{
 	    $builder->macro('keep', function (Builder $builder) {
-	        $builder->withTrashed();
+	        $builder->withCancelled();
 
 	        return $builder->update([$builder->getModel()->getCancelledAtColumn() => null]);
 	    });
