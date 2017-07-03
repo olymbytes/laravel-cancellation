@@ -4,14 +4,14 @@ namespace Olymbytes\Cancellation\Traits;
 
 use Olymbytes\Cancellation\Scopes\CancellingScope;
 
-trait Cancelable
+trait Cancellable
 {
     /**
      * Boot the cancelable trait for a model.
      *
      * @return void
      */
-    public static function bootCancelable()
+    public static function bootCancellable()
     {
         static::addGlobalScope(new CancellingScope);
     }
