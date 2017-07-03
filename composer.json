@@ -1,0 +1,26 @@
+{
+    "name": "olymbytes/laravel-cancellation",
+    "description": "A laravel cancellation package.",
+    "keywords": [
+        "olymbytes",
+        "cancellation",
+        "laravel"
+    ],
+    "homepage": "https://github.com/olymbytes/laravel-cancellation",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Morten Poul Jensen",
+            "email": "mpj@foreno.dk"
+        }
+    ],
+    "require": {
+        "php": "^7.0",
+        "illuminate/database": "^5.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Olymbytes\\Cancellation\\": "src"
+        }
+    }
+}
