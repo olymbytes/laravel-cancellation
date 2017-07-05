@@ -60,7 +60,7 @@ trait Cancellable
     }
 
     /**
-     * Determine if the model instance has been soft-deleted.
+     * Determine if the model instance has been cancelled.
      *
      * @return bool
      */

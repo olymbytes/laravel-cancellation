@@ -41,7 +41,7 @@ class CancellingScope implements Scope
     }
 
     /**
-     * Get the "deleted at" column for the builder.
+     * Get the "cancelled at" column for the builder.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $builder
      * @return string
