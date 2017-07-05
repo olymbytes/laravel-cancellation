@@ -2,9 +2,11 @@
 
 namespace Olymbytes\Cancellation\Scopes;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
+use Illuminate\Database\Eloquent\Builder;
 
-class CancellingScope extends Scope
+class CancellingScope implements Scope
 {
     /**
      * All of the extensions to be added to the builder.
