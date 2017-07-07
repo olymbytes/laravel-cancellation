@@ -40,6 +40,38 @@ trait Cancellable
     }
 
     /**
+     * Register a restoring model event with the dispatcher.
+     *
+     * @param  \Closure|string  $callback
+     * @return void
+     */
+    public static function cancelling($callback)
+    {
+        static::registerModelEvent('cancelling', $callback);
+    }
+
+    /**
+     * Register a restoring model event with the dispatcher.
+     *
+     * @param  \Closure|string  $callback
+     * @return void
+     */
+    public static function cancelled($callback)
+    {
+        static::registerModelEvent('cancelled', $callback);
+    }
+
+    /**
+     * Determine if the model instance has been cancelled.
+     *
+     * @return bool
+     */
+    public function isCancelled()
+    {
+        return ! is_null($this->{$this->getCancelledAtColumn()});
+    }
+
+    /**
      * Keep a cancelled model instance.
      *
      * @return bool|null
@@ -60,16 +92,6 @@ trait Cancellable
         $this->fireModelEvent('kept', false);
 
         return $result;
-    }
-
-    /**
-     * Determine if the model instance has been cancelled.
-     *
-     * @return bool
-     */
-    public function cancelled()
-    {
-        return ! is_null($this->{$this->getCancelledAtColumn()});
     }
 
     /**
