@@ -16,7 +16,8 @@
     ],
     "require": {
         "php": "^7.0",
-        "illuminate/database": "^5.4"
+        "illuminate/database": "^5.4",
+        "illuminate/support": "^5.4"
     },
     "require-dev": {
         "orchestra/database": "^3.4",
@@ -38,5 +39,12 @@
     },
     "config":  {
         "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Olymbytes\\Cancellation\\CancellationServiceProvider"
+            ]
+        }
     }
 }

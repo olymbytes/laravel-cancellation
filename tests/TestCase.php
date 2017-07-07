@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Database\Schema\Blueprint;
 use Orchestra\Testbench\TestCase as Orchestra;
+use Olymbytes\Cancellation\CancellationServiceProvider;
 
 abstract class TestCase extends Orchestra
 {
@@ -27,6 +28,13 @@ abstract class TestCase extends Orchestra
             'prefix' => '',
         ]);
         $app['config']->set('app.key', 'base64:9e0yNQB60wgU/cqbP09uphPo3aglW3iQJy+u4JQgnQE=');
+    }
+
+    protected function getPackageProviders($app)
+    {
+        return [
+            CancellationServiceProvider::class,
+        ];
     }
 
     protected function setUpDatabase()

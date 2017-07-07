@@ -24,7 +24,9 @@ class CancellingScope implements Scope
      */
     public function apply(Builder $builder, Model $model)
     {
-        $builder->whereNull($model->getQualifiedCancelledAtColumn());
+        if (config('laravel-cancellation.exclude') === true) {
+            $builder->whereNull($model->getQualifiedCancelledAtColumn());
+        }
     }
 
     /**

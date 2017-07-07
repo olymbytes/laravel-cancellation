@@ -7,8 +7,16 @@ use Olymbytes\Cancellation\Test\Models\Order;
 class CancellingScopeTest extends TestCase
 {
     /** @test */
-    function it_excludes_cancelled_orders_by_default()
+    function it_includes_cancelled_orders_by_default()
     {
+        $this->assertCount(50, Order::all());
+    }
+
+    /** @test */
+    function it_can_be_configured_to_exclude_cancelled_orders_by_default()
+    {
+        $this->app['config']->set('laravel-cancellation.exclude', true);
+
         $this->assertCount(25, Order::all());
     }
 
