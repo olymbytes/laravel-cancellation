@@ -29,4 +29,14 @@ class CancellingScopeTest extends TestCase
     {
         $this->assertCount(25, Order::withoutCancelled()->get());
     }
+
+    /** @test */
+    function it_can_keep_multiple_cancelled_orders()
+    {
+        $this->assertCount(25, Order::withoutCancelled()->get());
+
+        Order::onlyCancelled()->keep();
+
+        $this->assertCount(50, Order::withoutCancelled()->get());
+    }
 }
