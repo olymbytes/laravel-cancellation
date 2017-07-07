@@ -14,6 +14,8 @@ trait Cancellable
     public static function bootCancellable()
     {
         static::addGlobalScope(new CancellingScope);
+
+        $this->addObservableEvents(['cancelling', 'cancelled', 'keeping', 'kept']);
     }
 
     /**
