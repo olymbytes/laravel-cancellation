@@ -23,17 +23,20 @@ trait Cancellable
      */
     public function cancel()
     {
-        $query = $this->newQueryWithoutScopes()->where($this->getKeyName(), $this->getKey());
+        if ($this->fireModelEvent('cancelling') === false) {
+            return false;
+        }
 
         $time = $this->freshTimestamp();
 
         $this->{$this->getCancelledAtColumn()} = $time;
         $this->{$this->getUpdatedAtColumn()} = $time;
 
-        return $query->update([
-            $this->getCancelledAtColumn() => $this->fromDateTime($time),
-            $this->getUpdatedAtColumn() => $this->fromDateTime($time),
-        ]);
+        $result = $this->save();
+
+        $this->fireModelEvent('cancelled', false);
+
+        return $result;
     }
 
     /**
