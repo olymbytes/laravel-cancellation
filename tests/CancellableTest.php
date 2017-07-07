@@ -21,6 +21,7 @@ class CancellableTest extends TestCase
 
         $this->assertTrue($order->isCancelled());
         $this->assertTrue($order->fresh()->isCancelled());
+        $this->assertNotNull($order->getCancelledAtColumn());
     }
 
     /** @test */
