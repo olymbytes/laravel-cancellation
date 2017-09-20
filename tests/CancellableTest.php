@@ -96,7 +96,7 @@ class CancellableTest extends TestCase
         $order = $this->getRegularOrder();
         $total = $order->total;
 
-        Order::cancelled(function () use ($order) {
+        Order::cancelled(function ($order) {
             $order->total = $order->total * 10;
         });
 
