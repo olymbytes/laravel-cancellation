@@ -48,7 +48,7 @@ abstract class TestCase extends Orchestra
         $this->app['db']->connection()->getSchemaBuilder()->create('orders', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('total');
-            $table->dateTime('cancelled_at')->nullable();
+            $table->cancellable();
             $table->timestamps();
         });
     }

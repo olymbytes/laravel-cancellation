@@ -3,6 +3,7 @@
 namespace Olymbytes\Cancellation;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Database\Schema\Blueprint;
 
 class CancellationServiceProvider extends ServiceProvider
 {
@@ -26,6 +27,8 @@ class CancellationServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        Blueprint::macro('cancellable', function () {
+            return $this->timestamp('cancelled_at')->nullable();
+        });
     }
 }

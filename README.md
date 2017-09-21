@@ -2,13 +2,17 @@
 
 The `olymbytes/laravel-cancellation` package allows you to easily handle cancellation of your models. It is inspired by the SoftDeletes implementation in Laravel.
 
-All you have to do is add a trait to your cancellable models and add a cancelled_at column to your table:
+All you have to do to get started is:
 
 ```php
-// Add cancelled_at column to your table
-$table->dateTime('cancelled_at')->nullable();
+// 1. Add cancelled_at column to your table by using our macro cancellable
+Schema::create('orders', function (Blueprint $table) {
+    // ...
+    $table->cancellable();
+    // ...
+});
 
-// Add trait to your model
+// 2. Add the Cancellable trait to your model
 class Order extends Model
 {
     use Cancellable;

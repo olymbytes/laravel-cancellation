@@ -16,12 +16,12 @@
     ],
     "require": {
         "php": "^7.0",
-        "illuminate/database": "^5.4",
-        "illuminate/support": "^5.4"
+        "illuminate/database": "^5.5",
+        "illuminate/support": "^5.5"
     },
     "require-dev": {
-        "orchestra/database": "^3.4",
-        "orchestra/testbench": "^3.4",
+        "orchestra/database": "^3.5",
+        "orchestra/testbench": "^3.5",
         "phpunit/phpunit": "^6.2"
     },
     "autoload": {
