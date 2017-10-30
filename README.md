@@ -75,7 +75,7 @@ If you discover any security issues, please email mpj@foreno.dk instead of using
 
 ## Credits
 
-- [Morten Poul Jensen](https://github.com/Pauly-)
+- [Morten Poul Jensen](https://github.com/pactode)
 
 ## License
 
